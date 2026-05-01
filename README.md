@@ -2,6 +2,12 @@
 
 OBS Plugin to access Kinect data (and setup a virtual green screen based on depth).
 
+This repository is a fork of [SirLynix/obs-kinect](https://github.com/SirLynix/obs-kinect).
+Within this repository I have made modifications to:
+- Remove support for the Xbox 360 Kinect
+- Fixed minor build issues present on Fedora 40
+- Packaged the project into an RPM (see releases page)
+
 # Features
 
 This plugins allows you to access a Kinect v1 (for Xbox 360 or Kinect for Windows) and Kinect v2 (for Xbox One) streams and setup a "virtual green screen effect" based on depth/body data.
