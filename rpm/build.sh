@@ -5,7 +5,7 @@ export OBS_KINECT_ROOT=$(git rev-parse --show-toplevel)
 function setup_build_root() {
 	# Setup the RPM root build directory
 	local BUILDROOT_DIRS=("BUILD" "BUILDROOT" "RPMS" "SOURCES" "SPECS" "SRPMS")
-	local BUILDROOT="build"
+	local BUILDROOT="$OBS_KINECT_ROOT/rpm/build"
 
 	if [[ ! -d "$BUILDROOT" ]]; then
 		echo "Setting up build folder ./$BUILDROOT"
