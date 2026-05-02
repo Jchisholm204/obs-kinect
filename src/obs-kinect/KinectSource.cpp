@@ -184,25 +184,29 @@ void KinectSource::Update(float /*seconds*/)
 		}
 		else
 		{
-			uint8_t* ptr;
-			uint32_t texPitch;
+			uint8_t* ptr = NULL;
+			uint32_t texPitch = 0;
 			if (!gs_texture_map(texPtr, &ptr, &texPitch))
 				throw std::runtime_error("failed to map texture");
 
-			if (pitch == texPitch)
-				std::memcpy(ptr, content, pitch * height);
-			else
-			{
-				std::uint32_t bestPitch = std::min(pitch, texPitch);
-				for (std::size_t y = 0; y < height; ++y)
-				{
-					const std::uint8_t* input = &contentInput[y * pitch];
-					std::uint8_t* output = ptr + y * texPitch;
+			if(ptr){
 
-					std::memcpy(output, input, bestPitch);
+				if (pitch == texPitch){
+					std::memcpy(ptr, content, pitch * height);
 				}
-			}
+				else
+				{
+					std::uint32_t bestPitch = std::min(pitch, texPitch);
+					for (std::size_t y = 0; y < height; ++y)
+					{
+						const std::uint8_t* input = &contentInput[y * pitch];
+						std::uint8_t* output = ptr + y * texPitch;
 
+						std::memcpy(output, input, bestPitch);
+					}
+				}
+
+			}
 			gs_texture_unmap(texPtr);
 		}
 	};

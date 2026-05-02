@@ -16,6 +16,7 @@
 ******************************************************************************/
 
 #include "Freenect2Plugin.hpp"
+#include <libfreenect2/packet_pipeline.h>
 #include "Freenect2Device.hpp"
 
 std::string KinectFreenect2Plugin::GetUniqueName() const
@@ -34,7 +35,9 @@ std::vector<std::unique_ptr<KinectDevice>> KinectFreenect2Plugin::Refresh() cons
 		{
 			try
 			{
-				if (libfreenect2::Freenect2Device* device = m_freenect.openDevice(i))
+				// auto* pipeline = new libfreenect2::CpuPacketPipeline();
+				auto* pipeline = new libfreenect2::OpenGLPacketPipeline();
+				if (libfreenect2::Freenect2Device* device = m_freenect.openDevice(i, pipeline))
 					devices.emplace_back(std::make_unique<KinectFreenect2Device>(device));
 				else
 					warnlog("failed to open Kinect #%d", i);
