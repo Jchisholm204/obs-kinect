@@ -1,0 +1,6 @@
+build/RPMS/*
+build/BUILD/*
+build/BUILDROOT/*
+build/SPECS/*
+build/SRPMS/*
+build/SOURCES/*

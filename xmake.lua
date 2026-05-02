@@ -92,8 +92,6 @@ rule_end()
 
 add_repositories("local-repo xmake-repo")
 add_requires("libfreenect", "libfreenect2", { configs = { debug = is_mode("debug") } })
-add_requires("k4a", "libusb")
-add_requires("k4abt-headers", { optional = true })
 
 add_requireconfs("libusb", "*.libusb", { configs = { pic = true, shared = is_plat("windows") }})
 add_requireconfs("libfreenect2", "libfreenect2.libjpeg-turbo", { configs = { shared = not is_plat("windows") }})
@@ -157,6 +155,8 @@ target("obs-kinectcore")
 	add_files("src/obs-kinect-core/**.cpp")
 
 	add_includedirs("src")
+	add_cxflags("-include cstdint")
+	add_cxflags("-include stdexcept")
 
 	add_rules("copy_to_obs", "package_plugin")
 
@@ -165,6 +165,8 @@ target("obs-kinect")
 	set_group("Core")
 
 	add_deps("obs-kinectcore")
+	add_cxflags("-include cstdint")
+	add_cxflags("-include stdexcept")
 
 	add_headerfiles("src/obs-kinect/**.hpp", "src/obs-kinect/**.inl")
 	add_files("src/obs-kinect/**.cpp")
@@ -180,22 +182,6 @@ target("obs-kinect")
 		os.vcp("data", path.join(outputdir, "data"))
 	end)
 
-target("obs-kinect-azuresdk")
-	set_kind("shared")
-	set_group("Azure")
-
-	add_deps("obs-kinectcore")
-
-	add_packages("k4a")
-
-	add_headerfiles("src/obs-kinect-azuresdk/**.hpp", "src/obs-kinect-azuresdk/**.inl")
-	add_files("src/obs-kinect-azuresdk/**.cpp")
-
-	add_rules("kinect_dynlib", "copy_to_obs", "package_backend")
-
-	if has_package("k4abt-headers") then
-		add_packages("k4abt-headers")
-	end
 
 if is_plat("windows") then
 
@@ -242,18 +228,6 @@ if is_plat("windows") then
 	end
 
 end
-
-target("obs-kinect-freenect")
-	set_kind("shared")
-	set_group("KinectV1")
-
-	add_deps("obs-kinectcore")
-	add_packages("libfreenect", "libusb")
-
-	add_headerfiles("src/obs-kinect-freenect/**.hpp", "src/obs-kinect-freenect/**.inl")
-	add_files("src/obs-kinect-freenect/**.cpp")
-
-	add_rules("kinect_dynlib", "copy_to_obs", "package_backend")
 
 target("obs-kinect-freenect2")
 	set_kind("shared")

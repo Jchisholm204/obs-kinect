@@ -8,6 +8,10 @@ Within this repository I have made modifications to:
 - Fixed minor build issues present on Fedora 40
 - Packaged the project into an RPM (see releases page)
 
+> [!WARNING]  
+> The latest version contains a known bug where OBS will crash if previously opened. 
+> FIX: Unplug and replug the Kinect sensor before opening OBS.
+
 # Features
 
 This plugins allows you to access a Kinect v1 (for Xbox 360 or Kinect for Windows) and Kinect v2 (for Xbox One) streams and setup a "virtual green screen effect" based on depth/body data.
