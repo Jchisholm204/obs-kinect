@@ -54,6 +54,8 @@ cmake .. \
 	-DENABLE_OPENGL=ON \
 	-DENABLE_CUDA=OFF \
 	-DENABLE_LIBUSB=ON \
+	-DCMAKE_CXX_STANDARD=17 \
+	-DCMAKE_POSITION_INDEPENDENT_CODE=ON \
 	-DCMAKE_BUILD_TYPE=Debug
 
 %make_build
@@ -66,7 +68,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/freenect_dist/lib
 
 # obs-kinect
 xmake f -c -P .
-xmake -P . -y
+xmake -y -P .
 # Strip insecure RPATHs from the compiled binaries
 chrpath --delete bin/linux_x86_64_release/*.so
 
@@ -125,6 +127,9 @@ cp -r freenect_dist/include/libfreenect2/* %{buildroot}%{_includedir}/libfreenec
 
 
 %changelog
-* Fri May 1 2026 Jacob Chisholm <jacob@example.com> - 0.3.0-1
+* Wed Jun 24 2026 Jacob Chisholm <jacobchisholm1010@gmail.com> - 0.3.0-2
+- Changed build system to fix undefined symbol errors on Alma 10
+- Verify build for EPEL-10
+* Fri May 1 2026 Jacob Chisholm <jacobchisholm1010@gmail.com> - 0.3.0-1
 - Initial creation of the RPM package
 - Targeted for Fedora 40 and AlmaLinux 10

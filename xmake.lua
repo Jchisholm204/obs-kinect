@@ -91,10 +91,11 @@ rule("package_backend")
 rule_end()
 
 add_repositories("local-repo xmake-repo")
-add_requires("libfreenect", "libfreenect2", { configs = { debug = is_mode("debug") } })
+-- add_requires("libfreenect", "libfreenect2", { configs = { debug = is_mode("debug") } })
 
 add_requireconfs("libusb", "*.libusb", { configs = { pic = true, shared = is_plat("windows") }})
-add_requireconfs("libfreenect2", "libfreenect2.libjpeg-turbo", { configs = { shared = not is_plat("windows") }})
+
+-- add_requireconfs("libfreenect2", "libfreenect2.libjpeg-turbo", { configs = { shared = not is_plat("windows") }})
 
 if is_plat("windows") then
 	add_requires("kinect-sdk1", "kinect-sdk2", { optional = true })
@@ -229,9 +230,25 @@ if is_plat("windows") then
 
 end
 
+-- target("obs-kinect-freenect2")
+-- 	set_kind("shared")
+-- 	set_group("KinectV2")
+--
+-- 	add_deps("obs-kinectcore")
+-- 	add_packages("libfreenect2")
+--
+-- 	add_headerfiles("src/obs-kinect-freenect2/**.hpp", "src/obs-kinect-freenect2/**.inl")
+-- 	add_files("src/obs-kinect-freenect2/**.cpp")
+--
+-- 	add_rules("kinect_dynlib", "copy_to_obs", "package_backend")
 target("obs-kinect-freenect2")
 	set_kind("shared")
 	set_group("KinectV2")
+
+	-- FORCE LOCAL PATH PRECEDENCE HERE
+	add_includedirs("freenect_dist/include")
+	add_linkdirs("freenect_dist/lib")
+	add_links("freenect2")
 
 	add_deps("obs-kinectcore")
 	add_packages("libfreenect2")
